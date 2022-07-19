@@ -36,7 +36,9 @@ void selection_sort(int *array, size_t size)
 void swap_int(int *array, size_t a, size_t b)
 {
 	int tmp;
+
 	tmp = array[a];
+
 	array[a] = array[b];
 	array[b] = tmp;
 }
