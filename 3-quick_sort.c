@@ -12,64 +12,64 @@ void quick_sort(int *array, size_t size)
 }
 
 /**
- * recursive_quick_sort - recursive part
- * @array: array to use
- * @size: size
+ * recursive_quick_sort - recursive function to sort an array
+ * @array: pointer to the array
+ * @size: size of the array
  * @start: start index
  * @end: end index
  */
+
 void recursive_quick_sort(int *array, size_t size, int start, int end)
 {
-	int p;
+	int pivot;
+	int i, j;
 
 	if (start < end)
 	{
-		p = partition(array, size, start, end);
-
-		recursive_quick_sort(array, size, start, p - 1);
-		recursive_quick_sort(array, size, p + 1, end);
+		pivot = partition(array, size, start, end);
+		recursive_quick_sort(array, size, start, pivot - 1);
+		recursive_quick_sort(array, size, pivot + 1, end);
 	}
 }
 
 /**
- * partition - partition the array
- * @array: array to use
- * @size: size
+ * partition - function to partition the array
+ * @array: pointer to the array
+ * @size: size of the array
  * @start: start index
  * @end: end index
- * Return: partition index
+ * Return: pivot index
  */
-size_t partition(int *array, size_t size, int start, int end)
-{
-	int pivot = array[end];
-	int i = start - 1;
-	int j;
 
-	for (j = start; j <= end - 1; j++)
+int partition(int *array, size_t size, int start, int end)
+{
+	int pivot, i, j;
+
+	pivot = array[end];
+	i = start - 1;
+	for (j = start; j < end; j++)
 	{
-		if (array[j] < pivot)
+		if (array[j] <= pivot)
 		{
 			i++;
-			swap_int1(array, i, j);
-			print_array(array, size);
+			swap(&array[i], &array[j]);
 		}
 	}
-	swap_int1(array, i + 1, end);
-	print_array(array, size);
+	swap(&array[i + 1], &array[end]);
 	return (i + 1);
 }
 
 /**
- * swap_int1 - swap variable values
- * @array: array to use
- * @a: index 1
- * @b: index 2
+ * swap - function to swap two elements
+ * @a: pointer to the first element
+ * @b: pointer to the second element
  */
-void swap_int1(int *array, int a, int b)
-{
-	int tmp;
 
-	tmp = array[a];
-	array[a] = array[b];
-	array[b] = tmp;
+void swap(int *a, int *b)
+{
+	int temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
 }
