@@ -1,74 +1,70 @@
 #include "sort.h"
 
 /**
- * quick_sort - sorts an array of integers in ascending order
- * using the quick sort sort algorithm
- * @array: pointer to the array
- * @size: size of the array
+ * swap - helper to swap elements
+ * @a: left element
+ * @b: right element
+ * Return: Void
+ */
+void swap(int *a, int *b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+/**
+ * partition - Lomuto scheme
+ * @array: array to partition
+ * @size: size of array
+ * Return: Void
+ */
+unsigned int partition(int *array, size_t size)
+{
+	unsigned int ele = 0, swap_ele = 0;
+	static size_t a_size, pivot = 1;
+	static int *start;
+
+	if (pivot)
+	{
+		start = array;
+		a_size = size;
+		pivot = 0;
+	}
+	while (ele < size)
+	{
+		if (array[ele] < array[size - 1])
+		{
+			if (ele != swap_ele)
+			{
+				swap(&(array[ele]), &(array[swap_ele]));
+				print_array(start, a_size);
+			}
+			swap_ele++;
+		}
+		ele++;
+	}
+	if (array[ele - 1] < array[swap_ele])
+	{
+		swap(&(array[ele - 1]), &(array[swap_ele]));
+		print_array(start, a_size);
+	}
+	return (swap_ele);
+}
+/**
+ * quick_sort - quick sort algorithm
+ * @array: array
+ * @size: size of array
+ * Return: Void
  */
 void quick_sort(int *array, size_t size)
 {
-	recursive_quick_sort(array, size, 0, size - 1);
-}
+	unsigned int piv;
 
-/**
- * recursive_quick_sort - recursive function to sort an array
- * @array: pointer to the array
- * @size: size of the array
- * @start: start index
- * @end: end index
- */
+	if (array == NULL || size < 2)
+		return;
 
-void recursive_quick_sort(int *array, size_t size, int start, int end)
-{
-	int pivot;
-	int i, j;
+	piv = partition(array, size);
 
-	if (start < end)
-	{
-		pivot = partition(array, size, start, end);
-		recursive_quick_sort(array, size, start, pivot - 1);
-		recursive_quick_sort(array, size, pivot + 1, end);
-	}
-}
-
-/**
- * partition - function to partition the array
- * @array: pointer to the array
- * @size: size of the array
- * @start: start index
- * @end: end index
- * Return: pivot index
- */
-size_t partition(int *array, size_t size, int start, int end)
-{
-	int pivot = array[end];
-	int i = start - 1;
-	int j;
-
-	for (j = start; j < end; j++)
-	{
-		if (array[j] <= pivot)
-		{
-			i++;
-			swap_int(array, i, j);
-		}
-	}
-	i++;
-	swap_int(array, i, end);
-	return (i);
-}
-
-/**
- * swap_int - function to swap two integers
- * @array: pointer to the array
- * @a: index of the first integer
- * @b: index of the second integer
- */
-void swap_int(int *array, size_t a, size_t b)
-{
-	int temp = array[a];
-
-	array[a] = array[b];
-	array[b] = temp;
+	quick_sort(array, piv);
+	quick_sort(array + piv + 1, size - piv - 1);
 }
