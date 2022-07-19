@@ -40,36 +40,35 @@ void recursive_quick_sort(int *array, size_t size, int start, int end)
  * @end: end index
  * Return: pivot index
  */
-
-int partition(int *array, size_t size, int start, int end)
+size_t partition(int *array, size_t size, int start, int end)
 {
-	int pivot, i, j;
+	int pivot = array[end];
+	int i = start - 1;
+	int j;
 
-	pivot = array[end];
-	i = start - 1;
 	for (j = start; j < end; j++)
 	{
 		if (array[j] <= pivot)
 		{
 			i++;
-			swap(&array[i], &array[j]);
+			swap_int(array, i, j);
 		}
 	}
-	swap(&array[i + 1], &array[end]);
-	return (i + 1);
+	i++;
+	swap_int(array, i, end);
+	return (i);
 }
 
 /**
- * swap - function to swap two elements
- * @a: pointer to the first element
- * @b: pointer to the second element
+ * swap_int - function to swap two integers
+ * @array: pointer to the array
+ * @a: index of the first integer
+ * @b: index of the second integer
  */
-
-void swap(int *a, int *b)
+void swap_int(int *array, size_t a, size_t b)
 {
-	int temp;
+	int temp = array[a];
 
-	temp = *a;
-	*a = *b;
-	*b = temp;
+	array[a] = array[b];
+	array[b] = temp;
 }
